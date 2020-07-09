@@ -44,7 +44,6 @@ class Bandpass_Filter(Filter):
         for el in range(1, self.L + 1):
             tmp_sigma = p + (1 - p) * math.cos((el * math.pi) / self.L)
             list_sigma.append(tmp_sigma)
-        # print('sigma list:', list_sigma)
         return list_sigma
 
     def parametr_pk(self):
@@ -53,18 +52,24 @@ class Bandpass_Filter(Filter):
         for el in range(0, self.L):
             tmp_pk = tmp_list_sigma[self.L - el] * self.kf / ((self.L - el) * math.pi)
             list_pk.append(tmp_pk)
-        # print('list pk: ', list_pk)
         return list_pk
 
     def parametr_wk(self):
         list_wk = []
+        wv = math.pi / self.dt
+
         tmp_list_const = self.const()
+        wl = self.kf * (tmp_list_const[1] - tmp_list_const[0]) / wv
         tmp_list_pk = self.parametr_pk()
         for el in range(0, self.L):
             tmp_wk = tmp_list_pk[el] * (
                     (math.sin((self.L - el) * tmp_list_const[2])) - math.sin((self.L - el) * tmp_list_const[3]))
             list_wk.append(tmp_wk)
-        # print(len(list_wk), 'List wk:', list_wk)
+
+        for el in reversed(list_wk):
+            list_wk.append(el)
+        list_wk.insert(self.L, wl)
+        # print(len(list_wk),'Импульсная характеристика: ', list_wk)
         return list_wk
 
     def parametr_aw(self):
@@ -81,7 +86,7 @@ class Bandpass_Filter(Filter):
             for j in range(1, self.L + 1):
                 tmp = tmp + tmp_list_wk[self.L - j] * math.cos(j * self.dt * w1)
             tmp_aw = math.fabs(wl + 2 * tmp)
-            tmp_phiw = self.L * self.dt * w1
+            tmp_phiw = -self.L * self.dt * w1
             list_aw.append(tmp_aw)
             list_phiw.append(tmp_phiw)
         print('List aw: ', list_aw)
