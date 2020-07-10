@@ -25,6 +25,14 @@ class Bandpass_Filter(Filter):
     def __init__(self, w, big_w, dwp, kf, dt, L):
         super().__init__(w, big_w, dwp, kf, dt, L)
 
+    def time_func(self):
+        time_list = []
+        for el in range(0, 2 * self.L + 1):
+            tmp_time = el * self.dt
+            time_list.append(tmp_time)
+        # print(len(time_list), 'time list:', time_list)
+        return time_list
+
     def const(self):
         list_const = []
         wp = self.w - self.dwp / 2
@@ -57,7 +65,6 @@ class Bandpass_Filter(Filter):
     def parametr_wk(self):
         list_wk = []
         wv = math.pi / self.dt
-
         tmp_list_const = self.const()
         wl = self.kf * (tmp_list_const[1] - tmp_list_const[0]) / wv
         tmp_list_pk = self.parametr_pk()
@@ -65,7 +72,6 @@ class Bandpass_Filter(Filter):
             tmp_wk = tmp_list_pk[el] * (
                     (math.sin((self.L - el) * tmp_list_const[2])) - math.sin((self.L - el) * tmp_list_const[3]))
             list_wk.append(tmp_wk)
-
         for el in reversed(list_wk):
             list_wk.append(el)
         list_wk.insert(self.L, wl)
@@ -89,6 +95,15 @@ class Bandpass_Filter(Filter):
             tmp_phiw = -self.L * self.dt * w1
             list_aw.append(tmp_aw)
             list_phiw.append(tmp_phiw)
-        print('List aw: ', list_aw)
-        print('List phiw: ', list_phiw)
+        print(len(list_aw), 'List aw: ', list_aw)
+        print(len(list_aw), 'List phiw: ', list_phiw)
         return list_aw + list_phiw
+
+    def func_w1(self):
+        wv = math.pi / self.dt
+        dw = wv / self.L
+        list_w1 = []
+        for el in range(0, self.L + 1):
+            tmp_w1 = el * dw
+            list_w1.append(tmp_w1)
+        return list_w1
