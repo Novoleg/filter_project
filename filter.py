@@ -1,4 +1,5 @@
 import math
+from Consts import Consts
 
 
 class Filter:
@@ -23,6 +24,7 @@ class Filter:
 class Bandpass_Filter(Filter):
 
     def __init__(self, w, big_w, dwp, kf, dt, L):
+        self.c = Consts(9, 12, 0.5, 0.2)
         super().__init__(w, big_w, dwp, kf, dt, L)
 
     def time_func(self):
@@ -32,19 +34,6 @@ class Bandpass_Filter(Filter):
             time_list.append(tmp_time)
         # print(len(time_list), 'time list:', time_list)
         return time_list
-
-    def const(self):
-        list_const = []
-        wp = self.w - self.dwp / 2
-        list_const.append(wp)
-        big_wp = self.big_w + self.dwp / 2
-        list_const.append(big_wp)
-        big_wzw = big_wp * self.dt
-        list_const.append(big_wzw)
-        wzv = wp * self.dt
-        list_const.append(wzv)
-        # print(list_const)
-        return list_const
 
     def parametr_sigma(self):
         list_sigma = [0]
@@ -65,12 +54,11 @@ class Bandpass_Filter(Filter):
     def parametr_wk(self):
         list_wk = []
         wv = math.pi / self.dt
-        tmp_list_const = self.const()
-        wl = self.kf * (tmp_list_const[1] - tmp_list_const[0]) / wv
+        wl = self.kf * (self.c.result_big_wp() - self.c.result_wp()) / wv
         tmp_list_pk = self.parametr_pk()
         for el in range(0, self.L):
             tmp_wk = tmp_list_pk[el] * (
-                    (math.sin((self.L - el) * tmp_list_const[2])) - math.sin((self.L - el) * tmp_list_const[3]))
+                    (math.sin((self.L - el) * self.c.result_big_wzv())) - math.sin((self.L - el) * self.c.result_wzw()))
             list_wk.append(tmp_wk)
         for el in reversed(list_wk):
             list_wk.append(el)
@@ -80,8 +68,7 @@ class Bandpass_Filter(Filter):
 
     def parametr_aw(self):
         wv = math.pi / self.dt
-        tmp_list_const = self.const()
-        wl = self.kf * (tmp_list_const[1] - tmp_list_const[0]) / wv
+        wl = self.kf * (self.c.result_big_wp() - self.c.result_wp()) / wv
         list_aw = []
         list_phiw = []
         dw = wv / self.L

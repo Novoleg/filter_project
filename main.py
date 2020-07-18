@@ -14,7 +14,7 @@ if __name__ == '__main__':
     ax.set_ylabel("wk")
     ax.legend()
     plt.grid()
-    fig.savefig(os.path.join('/home/novoleg/Изображения', 'impulse responce.png'))
+    fig.savefig(os.path.join('C:\\Users\\novol\\OneDrive\\Общие документы\\Graphics', 'impulse responce.png'))
 
     final_list_aw = []
     final_list_phiw = []
@@ -32,7 +32,7 @@ if __name__ == '__main__':
     ax1.set_ylabel("A(ω)")
     ax1.legend()
     plt.grid()
-    fig.savefig(os.path.join('/home/novoleg/Изображения', 'amplitude.png'))
+    fig.savefig(os.path.join('C:\\Users\\novol\\OneDrive\\Общие документы\\Graphics', 'amplitude.png'))
 
     fig, ax1 = plt.subplots(figsize=(16, 9))
     ax1.plot(f.func_w1(), final_list_phiw, color="red", label="ФЧХ")
@@ -40,7 +40,4 @@ if __name__ == '__main__':
     ax1.set_ylabel("Phi(ω)")
     ax1.legend()
     plt.grid()
-    fig.savefig(os.path.join('/home/novoleg/Изображения', 'phase.png'))
-
-
-
+    fig.savefig(os.path.join('C:\\Users\\novol\\OneDrive\\Общие документы\\Graphics', 'phase.png'))

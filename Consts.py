@@ -1,5 +1,5 @@
 class Consts:
-    def __init__(self, w, dwp, big_w, dt):
+    def __init__(self, w, big_w, dwp, dt):
         self.w = w
         self.dwp = dwp
         self.big_w = big_w
@@ -16,3 +16,6 @@ class Consts:
 
     def result_big_wzv(self):
         return self.result_big_wp() * self.dt
+
+
+
