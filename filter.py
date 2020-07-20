@@ -21,7 +21,7 @@ class Filter:
         print('L:', self.L)
 
 
-class Bandpass_Filter(Filter):
+class BandpassFilter(Filter):
 
     def __init__(self, w, big_w, dwp, kf, dt, L):
         self.c = Consts(9, 12, 0.5, 0.2)
@@ -32,7 +32,6 @@ class Bandpass_Filter(Filter):
         for el in range(0, 2 * self.L + 1):
             tmp_time = el * self.dt
             time_list.append(tmp_time)
-        # print(len(time_list), 'time list:', time_list)
         return time_list
 
     def parametr_sigma(self):
