@@ -6,10 +6,10 @@ if __name__ == '__main__':
     # f = Bandpass_Filter(int(input('Введи w: ')), int(input('Введи W: ')),
     #                     float(input('Введи dwp: ')), float(input('Введи kf: ')),
     #                     float(input('Введи dt: ')), int(input('Введи L: ')))
-    f = BandpassFilter(9, 12, 0.5, 0.5, 0.2, 75)
+    f = BandpassFilter(9, 12, 0.5, 0.5, 0.2)
 
     fig, ax = plt.subplots(figsize=(16, 9))
-    ax.plot(f.time_func(), f.parametr_wk(), color="blue", label="Импульсная характеристика")
+    ax.plot(f.time_func(), f.parameter_wk(), color="blue", label="Импульсная характеристика")
     ax.set_xlabel("t")
     ax.set_ylabel("wk")
     ax.legend()
@@ -18,7 +18,7 @@ if __name__ == '__main__':
 
     final_list_aw = []
     final_list_phiw = []
-    tmp = f.parametr_aw()
+    tmp = f.parameter_aw()
 
     for el in tmp:
         if el > 0:
