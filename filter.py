@@ -6,7 +6,6 @@ from Consts import Consts
 class Filter:
 
     def __init__(self, w, big_w, dwp, kf, dt):
-        self.filter_multiplier = FiltersMultipliers(75)
         self.w = w
         self.big_w = big_w
         self.dwp = dwp
@@ -24,6 +23,7 @@ class Filter:
 class BandpassFilter(Filter):
 
     def __init__(self, w, big_w, dwp, kf, dt):
+        self.filter_multiplier = FiltersMultipliers(75)
         self.c = Consts(9, 12, 0.5, 0.2)
         super().__init__(w, big_w, dwp, kf, dt)
 
@@ -36,7 +36,7 @@ class BandpassFilter(Filter):
 
     def parameter_pk(self):
         list_pk = []
-        tmp_list_sigma = self.filter_multiplier.multiplier_hamming_func()
+        tmp_list_sigma = self.filter_multiplier.multiplier_bartlett()
         for el in range(0, self.filter_multiplier.l_fourier):
             tmp_pk = tmp_list_sigma[self.filter_multiplier.l_fourier - el] * self.kf / (
                     (self.filter_multiplier.l_fourier - el) * math.pi)
