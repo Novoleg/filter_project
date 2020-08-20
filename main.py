@@ -1,12 +1,13 @@
 from filter import BandpassFilter
 import matplotlib.pyplot as plt
 import os
-
+'''Модуль main необходим для запуска расчета фильтра и создания графиков'''
 if __name__ == '__main__':
     # f = Bandpass_Filter(int(input('Введи w: ')), int(input('Введи W: ')),
     #                     float(input('Введи dwp: ')), float(input('Введи kf: ')),
     #                     float(input('Введи dt: ')), int(input('Введи L: ')))
     f = BandpassFilter(9, 12, 0.5, 0.5, 0.2)
+    # f.describe_filter()
 
     fig, ax = plt.subplots(figsize=(16, 9))
     ax.plot(f.time_func(), f.parameter_wk(), color="blue", label="Импульсная характеристика")
